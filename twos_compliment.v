@@ -1,0 +1,34 @@
+module twos_compliment(
+    
+    input [7:0]A,
+    output [7:0]TC
+    
+);
+
+genvar i;
+wire [7:0]carry;
+
+generate 
+full_adder msb(
+    .A(~A[0]),
+    .B(1'b0),
+    .Cin(1'b1),
+    .Cout(carry[0]),
+    .Sum(TC[0])
+    
+    
+); 
+
+for(i = 1; i < 8; i = i + 1) begin
+    full_adder add(
+        .A(~A[i]),
+        .B(1'b0),
+        .Cin(carry[i-1]),
+        .Cout(carry[i]),
+        .Sum(TC[i])
+        );
+end
+
+endgenerate
+
+endmodule
